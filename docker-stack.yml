@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:latest
+    volumes:
+      # This will copy anything in sample to the init-dir. sql files
+      # in init dir will be run automatically by postgres to initialize
+      # the database
+      - './sample:/docker-entrypoint-initdb.d'
+    networks:
+      - backend
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
+networks:
+  backend:
+
+volumes:
+  db-data:
+  sample:
